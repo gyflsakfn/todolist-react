@@ -59,7 +59,18 @@ header {
   justify-content: center;
 }
 
-nav {
+.head_title {
+  font-size: 2rem;
+  text-align: center;
+  padding: 20px;
+  border-bottom: 1px solid #e2e2e2;
+  color: red;
+  margin: 0;
+}
+
+/* DATE */
+
+.date_wrapper {
   padding: 10px 0;
   display: flex;
   justify-content: space-between;
@@ -67,24 +78,15 @@ nav {
   border-bottom: 1px solid #e2e2e2;
   border-top: 1px solid #e2e2e2;
 }
-
-.head_title {
-  font-size: 2rem;
-  text-align: center;
-  margin-top: 2.2rem;
-  margin-bottom: 2.2rem;
-  color: red;
-}
-
-.head_btn_left {
+.date_btn_left {
   /* width: 25%; */
   justify-content: start;
 }
-.head_btn_right {
+.date_btn_right {
   /* width: 25%; */
   justify-content: end;
 }
-.head_text {
+.date_text {
   /* width: 50%; */
   font-size: 25px;
   justify-content: center;
