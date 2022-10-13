@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Button from "./Button";
+import TodoItem from "./TodoItem";
 
 const sortOptionList = [
   { value: "latest", name: "최신순" },
@@ -14,7 +16,11 @@ const importFilterOptionList = [
 
 const ControlMenu = ({ value, onChange, optionList }) => {
   return (
-    <select value={value} onChange={(e) => onChange(e.target.value)}>
+    <select
+      className="ControlMenu"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    >
       {optionList.map((it, index) => (
         <option key={index} value={it.value}>
           {it.name}
@@ -58,21 +64,28 @@ const TodoList = ({ todoList }) => {
   };
 
   return (
-    <div>
-      <ControlMenu
-        value={sortType}
-        onChange={setSortType}
-        optionList={sortOptionList}
-      />
-      <ControlMenu
-        value={importfilter}
-        onChange={setImportFilter}
-        optionList={importFilterOptionList}
-      />
-      {getProcessedTodoList().map((it) => (
-        <div key={it.id}>
-          {it.content} {it.importance}
+    <div className="TodoList">
+      <div className="menu_wrapper">
+        <div className="left_col">
+          <ControlMenu
+            value={sortType}
+            onChange={setSortType}
+            optionList={sortOptionList}
+          />
+          <ControlMenu
+            value={importfilter}
+            onChange={setImportFilter}
+            optionList={importFilterOptionList}
+          />
         </div>
+        <div className="right_col">
+          <Button type={"default"} text={"수정"} />
+          <Button type={"negative"} text={"삭제"} />
+        </div>
+      </div>
+
+      {getProcessedTodoList().map((it) => (
+        <TodoItem key={it.id} {...it} />
       ))}
     </div>
   );

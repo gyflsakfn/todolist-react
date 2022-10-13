@@ -73,7 +73,7 @@ function App() {
 
   const dataId = useRef(0);
   // CREATE
-  const onCreate = (date, content, importance) => {
+  const onCreate = (date, content, importance, todoState) => {
     dispatch({
       type: "CREATE",
       data: {
@@ -81,6 +81,7 @@ function App() {
         date: new Date(date).getTime(),
         content,
         importance,
+        todoState: "TODO",
       },
     });
   };
@@ -89,7 +90,7 @@ function App() {
     dispatch({ type: "REMOVE" }, targetId);
   };
   // EDIT
-  const onEdit = (targetId, date, content, importance) => {
+  const onEdit = (targetId, date, content, importance, todoState) => {
     dispatch({
       type: "EDIT",
       data: {
@@ -97,6 +98,7 @@ function App() {
         date: new Date(date).getTime(),
         content,
         importance,
+        todoState,
       },
     });
   };

@@ -1,14 +1,10 @@
-const Button = ({ text, type, onClick, onMouseOver }) => {
+const Button = ({ text, type, onClick }) => {
   const btnType = ["positive", "negative", "default"].includes(type)
     ? type
     : "defult";
 
   return (
-    <button
-      className={["btn", `btn_${btnType}`].join(" ")}
-      onClick={onClick}
-      onMouseOver={onMouseOver}
-    >
+    <button className={["btn", `btn_${btnType}`].join(" ")} onClick={onClick}>
       {text}
     </button>
   );
