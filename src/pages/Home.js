@@ -3,6 +3,7 @@ import { TodoStateContext } from "../App";
 import Button from "../components/Button";
 import DateInfo from "../components/DateInfo";
 import Header from "../components/Header";
+import TodoInput from "../components/TodoInput";
 import TodoList from "../components/TodoList";
 
 const Home = () => {
@@ -54,6 +55,7 @@ const Home = () => {
   return (
     <div>
       <Header headText={"헤더텍스트"} />
+      <TodoInput />
       <DateInfo
         dateText={dateText}
         leftChild={<Button text={"<"} onClick={decreaseMonth} />}

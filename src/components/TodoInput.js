@@ -1,4 +1,8 @@
 const TodoInput = () => {
-  return <div></div>;
+  return (
+    <div className="TodoInput">
+      <input />
+    </div>
+  );
 };
 export default TodoInput;
