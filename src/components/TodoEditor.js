@@ -1,10 +1,9 @@
-import { useContext, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
 import { priorityList } from "../util/Priority";
 import PriorityItem from "./PriorityItem";
 
 import Button from "./Button";
-import { TodoDispatchContext } from "../App";
+import { TodoDispatchContext, TodoStateContext } from "../App";
 
 // toISOString사용 시 UTC 타임존 사용으로 인해 가공 후 반환
 const getStringDate = (date) => {
@@ -14,20 +13,39 @@ const getStringDate = (date) => {
   return dateOffset.toISOString().slice(0, 10);
 };
 
-const TodoEditor = () => {
+const TodoEditor = ({ selectData }) => {
+  const [originData, setOriginData] = useState();
   const contentRef = useRef();
   const [content, setContent] = useState("");
   const [priority, setPriority] = useState(2);
   const [date, setDate] = useState(getStringDate(new Date()));
   const [state, setState] = useState(false);
 
-  const { onCreate } = useContext(TodoDispatchContext);
+  const todoList = useContext(TodoStateContext);
+  const { onCreate, onEdit } = useContext(TodoDispatchContext);
+
+  useEffect(() => {
+    if (todoList.length >= 1) {
+      const targetTodo = todoList.find(
+        (it) => parseInt(it.id) === parseInt(selectData)
+      );
+      setOriginData(targetTodo);
+
+      if (originData) {
+        setDate(getStringDate(new Date(parseInt(originData.date))));
+        setContent(originData.content);
+        setPriority(originData.priority);
+      } else {
+        onReset();
+      }
+    }
+  }, [selectData, todoList, originData]);
 
   const handleClickPriority = (priority) => {
     setPriority(priority);
   };
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const onReset = () => {
     setDate(getStringDate(new Date()));
@@ -35,14 +53,23 @@ const TodoEditor = () => {
     setContent("");
   };
 
-  const handleSubmit = () => {
+  const onCreateTodo = () => {
     if (content.length < 1) {
       contentRef.current.focus();
       return;
     }
     alert("저장하시겠습니까?");
     onCreate(date, content, priority, state);
-    // navigate("/", { replace: true });
+    onReset();
+  };
+
+  const onEditTodo = () => {
+    onEdit(originData.id, date, content, priority);
+  };
+
+  const onEditCancel = () => {
+    setOriginData(null);
+    selectData = null;
     onReset();
   };
   return (
@@ -75,8 +102,16 @@ const TodoEditor = () => {
         </div>
       </div>
       <div className="Control_box">
-        <Button text={"저장"} onClick={handleSubmit} type={"positive"} />
-        {/* <Button text={"취소"} /> */}
+        {selectData ? (
+          <div>
+            <Button text={"취소"} onClick={onEditCancel} />
+            <Button text={"수정"} onClick={onEditTodo} />
+          </div>
+        ) : (
+          <Button text={"저장"} onClick={onCreateTodo} type={"positive"} />
+        )}
+        {/* <Button text={"저장"} onClick={handleSubmit} type={"positive"} />
+        <Button text={"취소"} /> */}
       </div>
     </div>
   );

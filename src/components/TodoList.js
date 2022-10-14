@@ -30,7 +30,7 @@ const ControlMenu = ({ value, onChange, optionList }) => {
   );
 };
 
-const TodoList = ({ todoList }) => {
+const TodoList = ({ todoList, setSelectData }) => {
   // 정렬 기준을 저장할 state
   const [sortType, setSortType] = useState("lastest");
   const [priorityfilter, setPriorityFilter] = useState("all");
@@ -79,13 +79,13 @@ const TodoList = ({ todoList }) => {
           />
         </div>
         <div className="right_col">
-          <Button type={"default"} text={"수정"} />
+          {/* <Button type={"default"} text={"수정"} /> */}
           <Button type={"negative"} text={"삭제"} />
         </div>
       </div>
 
       {getProcessedTodoList().map((it) => (
-        <TodoItem key={it.id} {...it} />
+        <TodoItem setSelectData={setSelectData} key={it.id} {...it} />
       ))}
     </div>
   );

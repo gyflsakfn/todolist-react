@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Button from "./Button";
 import { priorityList } from "../util/Priority";
+import TodoEditor from "./TodoEditor";
 
 // console.log(importanceList);
 
@@ -27,13 +28,12 @@ const ImportanceProp = ({ priority }) => {
   );
 };
 
-// high(1),medium(2),low(3)
-const TodoItem = ({ id, content, date, priority }) => {
+const TodoItem = ({ id, content, date, priority, setSelectData }) => {
   const strDate = new Date(parseInt(date)).toLocaleDateString();
 
   return (
-    <div className="TodoItem" onClick={() => {}}>
-      <div className="info_wrapper">
+    <div className="TodoItem">
+      <div className="info_wrapper" onClick={() => setSelectData(id)}>
         <div className="info__date">{strDate}</div>
         <div className="info__content">
           <ImportanceProp priority={priority} />

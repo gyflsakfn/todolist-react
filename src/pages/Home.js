@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-
 import { TodoStateContext } from "../App";
 
 import Button from "../components/Button";
@@ -9,6 +8,10 @@ import TodoEditor from "../components/TodoEditor";
 import TodoList from "../components/TodoList";
 
 const Home = () => {
+  // 선택 item의 id값 저장
+  const [selectData, setSelectData] = useState();
+  // console.log(selectData);
+
   // Context의 TodoState를 불러옴
   const todoList = useContext(TodoStateContext);
 
@@ -57,13 +60,13 @@ const Home = () => {
   return (
     <div>
       <Header headText={"TodoList"} />
-      <TodoEditor />
+      <TodoEditor selectData={selectData} />
       <DateInfo
         dateText={dateText}
         leftChild={<Button text={"<"} onClick={decreaseMonth} />}
         rightChild={<Button text={">"} onClick={increaseMonth} />}
       />
-      <TodoList todoList={data} />
+      <TodoList todoList={data} setSelectData={setSelectData} />
     </div>
   );
 };

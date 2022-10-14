@@ -90,7 +90,7 @@ function App() {
     dispatch({ type: "REMOVE" }, targetId);
   };
   // EDIT
-  const onEdit = (targetId, date, content, priority, todoState) => {
+  const onEdit = (targetId, date, content, priority) => {
     dispatch({
       type: "EDIT",
       data: {
@@ -98,7 +98,6 @@ function App() {
         date: new Date(date).getTime(),
         content,
         priority,
-        todoState,
       },
     });
   };
