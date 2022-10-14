@@ -34,7 +34,7 @@ body {
   cursor: pointer;
   border: none;
   border-radius: 4px;
-  padding: 10px 20px;
+  padding: 8px 16px;
 
   font-size: 1.2rem;
   white-space: nowrap;
@@ -70,7 +70,7 @@ header {
 
 /* DATE */
 .date_wrapper {
-  padding: 10px 0;
+  padding: 6px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -87,18 +87,18 @@ header {
 }
 .date_text {
   /* width: 50%; */
-  font-size: 25px;
+  font-size: 20px;
   justify-content: center;
 }
 
 /* TodoList */
-
 .TodoList .menu_wrapper {
   margin-top: 20px;
   margin-bottom: 30px;
 
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
 }
 
 .TodoList .right_col .btn {
@@ -108,8 +108,76 @@ header {
   margin-right: 10px;
   border: none;
   border-radius: 5px;
-  background-color: aqua;
-  padding: 10px 20px;
+  background-color: #e2e2e2;
+  padding: 6px 14px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 14px;
+}
+
+/* TodoItem */
+.TodoItem {
+  display: flex;
+  margin: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e2e2;
+}
+.TodoItem .info_wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.TodoItem .info__date {
+  width: 60px;
+  text-align: center;
+  height: 20px;
+  font-size: 10px;
+  /* color: #c0c0c0; */
+  color: #808080;
+  /* background-color: #c0c0c0; */
+  border-radius: 2px;
+}
+.TodoItem .info__content {
+  display: flex;
+  align-items: center;
+}
+.TodoItem .priority {
+  background-color: #e2e2e2;
+  font-size: 16px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  margin-right: 6px;
+}
+
+.TodoItem .priority_1 {
+  background-color: #ff9999;
+}
+.TodoItem .priority_2 {
+  background-color: #ffe5cc;
+}
+.TodoItem .priority_3 {
+  background-color: #e5ffcc;
+}
+
+/* TodoEditor */
+.TodoEditor {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 10px;
+}
+.TodoEditor .editor_box {
+  display: flex;
+  margin-bottom: 10px;
+}
+.TodoEditor .editor_box .editor_date {
+  border: none;
+  border-radius: 5px;
+  background-color: #ececec;
+  padding: 10px 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.TodoEditor .editor_btn {
+  display: flex;
+  justify-content: end;
 }

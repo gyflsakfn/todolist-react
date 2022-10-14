@@ -33,35 +33,35 @@ export const TodoDispatchContext = React.createContext();
 const dummyData = [
   {
     id: 1,
-    importance: 1,
+    priority: 1,
     todoState: "DONE",
     content: "공부하기 1",
     date: 1665132215681,
   },
   {
     id: 2,
-    importance: 2,
+    priority: 2,
     todoState: "TODO",
     content: "공부하기 2",
     date: 1665132215682,
   },
   {
     id: 3,
-    importance: 2,
+    priority: 2,
     todoState: "DONE",
     content: "공부하기 3",
     date: 1665132215683,
   },
   {
     id: 4,
-    importance: 3,
+    priority: 3,
     todoState: "TODO",
     content: "공부하기 4",
     date: 1665132215684,
   },
   {
     id: 5,
-    importance: 3,
+    priority: 3,
     todoState: "TODO",
     content: "공부하기 5",
     date: 1665132215685,
@@ -73,14 +73,14 @@ function App() {
 
   const dataId = useRef(0);
   // CREATE
-  const onCreate = (date, content, importance, todoState) => {
+  const onCreate = (date, content, priority, todoState) => {
     dispatch({
       type: "CREATE",
       data: {
         id: dataId.current,
         date: new Date(date).getTime(),
         content,
-        importance,
+        priority,
         todoState: "TODO",
       },
     });
@@ -90,14 +90,14 @@ function App() {
     dispatch({ type: "REMOVE" }, targetId);
   };
   // EDIT
-  const onEdit = (targetId, date, content, importance, todoState) => {
+  const onEdit = (targetId, date, content, priority, todoState) => {
     dispatch({
       type: "EDIT",
       data: {
         id: targetId,
         date: new Date(date).getTime(),
         content,
-        importance,
+        priority,
         todoState,
       },
     });
