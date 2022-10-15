@@ -78,10 +78,7 @@ const TodoList = ({ todoList, setSelectData }) => {
             optionList={sortOptionList}
           />
         </div>
-        <div className="right_col">
-          {/* <Button type={"default"} text={"수정"} /> */}
-          <Button type={"negative"} text={"삭제"} />
-        </div>
+        <div className="right_col"></div>
       </div>
 
       {getProcessedTodoList().map((it) => (

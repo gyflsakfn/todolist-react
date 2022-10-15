@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -37,6 +37,18 @@ export const TodoDispatchContext = React.createContext();
 
 function App() {
   const [data, dispatch] = useReducer(reducer, []);
+
+  useEffect(() => {
+    const localData = localStorage.getItem("todo");
+    if (localData) {
+      const todoList = JSON.parse(localData).sort(
+        (a, b) => parseInt(b.id) - parseInt(a.id)
+      );
+      dataId.current = parseInt(todoList[0].id + 1);
+
+      dispatch({ type: "INIT", data: todoList });
+    }
+  }, []);
 
   const dataId = useRef(6);
   // CREATE
