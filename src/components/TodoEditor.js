@@ -24,7 +24,7 @@ const TodoEditor = ({ selectData }) => {
   const [selectState, setSelectState] = useState();
 
   const todoList = useContext(TodoStateContext);
-  const { onCreate, onEdit } = useContext(TodoDispatchContext);
+  const { onCreate, onEdit, onRemove } = useContext(TodoDispatchContext);
 
   useEffect(() => {
     if (selectData) {
@@ -77,10 +77,18 @@ const TodoEditor = ({ selectData }) => {
     onReset();
   };
 
-  // const onEditCancel = () => {
-  //   setSelectState(0);
-  //   onReset();
-  // };
+  const onEditCancel = () => {
+    setSelectState(0);
+    onReset();
+  };
+
+  const onRemoveTodo = () => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      onRemove(originData.id);
+      setSelectState(0);
+      onReset();
+    }
+  };
   return (
     <div className="TodoEditor">
       <div className="test">
@@ -113,8 +121,9 @@ const TodoEditor = ({ selectData }) => {
       <div className="Control_box">
         {selectState ? (
           <div>
-            <Button text={"취소"} onClick={onEditTodo} />
+            <Button text={"취소"} onClick={onEditCancel} />
             <Button text={"수정"} onClick={onEditTodo} />
+            <Button text={"삭제"} type={"negative"} onClick={onRemoveTodo} />
           </div>
         ) : (
           <Button text={"저장"} onClick={onCreateTodo} type={"positive"} />

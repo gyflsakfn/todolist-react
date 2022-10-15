@@ -15,6 +15,10 @@ const reducer = (state, action) => {
       newState = [action.data, ...state];
       break;
     }
+    case "REMOVE": {
+      newState = state.filter((it) => it.id !== action.targetId);
+      break;
+    }
     case "EDIT": {
       newState = state.map((it) =>
         it.id === action.data.id ? { ...action.data } : it
@@ -24,52 +28,15 @@ const reducer = (state, action) => {
     default:
       return state;
   }
+  localStorage.setItem("todo", JSON.stringify(newState));
   return newState;
 };
 
 export const TodoStateContext = React.createContext();
 export const TodoDispatchContext = React.createContext();
 
-const dummyData = [
-  {
-    id: 1,
-    priority: 1,
-    todoState: false,
-    content: "공부하기 1",
-    date: 1665132215681,
-  },
-  {
-    id: 2,
-    priority: 2,
-    todoState: false,
-    content: "공부하기 2",
-    date: 1665132215682,
-  },
-  {
-    id: 3,
-    priority: 2,
-    todoState: false,
-    content: "공부하기 3",
-    date: 1665132215683,
-  },
-  {
-    id: 4,
-    priority: 3,
-    todoState: false,
-    content: "공부하기 4",
-    date: 1665132215684,
-  },
-  {
-    id: 5,
-    priority: 3,
-    todoState: false,
-    content: "공부하기 5",
-    date: 1665132215685,
-  },
-];
-
 function App() {
-  const [data, dispatch] = useReducer(reducer, dummyData);
+  const [data, dispatch] = useReducer(reducer, []);
 
   const dataId = useRef(6);
   // CREATE
@@ -88,7 +55,10 @@ function App() {
   };
   // REMOVE
   const onRemove = (targetId) => {
-    dispatch({ type: "REMOVE" }, targetId);
+    dispatch({
+      type: "REMOVE",
+      targetId,
+    });
   };
   // EDIT
   const onEdit = (targetId, date, content, priority) => {
