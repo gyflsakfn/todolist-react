@@ -19,15 +19,23 @@ const TodoEditor = ({ selectData }) => {
   const [content, setContent] = useState("");
   const [priority, setPriority] = useState(2);
   const [date, setDate] = useState(getStringDate(new Date()));
-  const [state, setState] = useState(false);
+  // const [state, setState] = useState(false);
+
+  const [selectState, setSelectState] = useState();
 
   const todoList = useContext(TodoStateContext);
   const { onCreate, onEdit } = useContext(TodoDispatchContext);
 
   useEffect(() => {
+    if (selectData) {
+      setSelectState(parseInt(selectData));
+    }
+  }, [selectData]);
+
+  useEffect(() => {
     if (todoList.length >= 1) {
       const targetTodo = todoList.find(
-        (it) => parseInt(it.id) === parseInt(selectData)
+        (it) => parseInt(it.id) === parseInt(selectState)
       );
       setOriginData(targetTodo);
 
@@ -39,7 +47,7 @@ const TodoEditor = ({ selectData }) => {
         onReset();
       }
     }
-  }, [selectData, todoList, originData]);
+  }, [selectState, originData, todoList]);
 
   const handleClickPriority = (priority) => {
     setPriority(priority);
@@ -59,19 +67,20 @@ const TodoEditor = ({ selectData }) => {
       return;
     }
     alert("저장하시겠습니까?");
-    onCreate(date, content, priority, state);
+    onCreate(date, content, priority);
     onReset();
   };
 
   const onEditTodo = () => {
     onEdit(originData.id, date, content, priority);
-  };
-
-  const onEditCancel = () => {
-    setOriginData(null);
-    selectData = null;
+    setSelectState(0);
     onReset();
   };
+
+  // const onEditCancel = () => {
+  //   setSelectState(0);
+  //   onReset();
+  // };
   return (
     <div className="TodoEditor">
       <div className="test">
@@ -102,9 +111,9 @@ const TodoEditor = ({ selectData }) => {
         </div>
       </div>
       <div className="Control_box">
-        {selectData ? (
+        {selectState ? (
           <div>
-            <Button text={"취소"} onClick={onEditCancel} />
+            <Button text={"취소"} onClick={onEditTodo} />
             <Button text={"수정"} onClick={onEditTodo} />
           </div>
         ) : (

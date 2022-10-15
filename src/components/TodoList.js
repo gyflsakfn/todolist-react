@@ -32,7 +32,7 @@ const ControlMenu = ({ value, onChange, optionList }) => {
 
 const TodoList = ({ todoList, setSelectData }) => {
   // 정렬 기준을 저장할 state
-  const [sortType, setSortType] = useState("lastest");
+  const [sortType, setSortType] = useState("latest");
   const [priorityfilter, setPriorityFilter] = useState("all");
 
   // 최신순인지 오래된 순인지 분기하여 정렬된 리스트 반환하는 함수
