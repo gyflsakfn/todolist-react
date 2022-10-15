@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import Button from "./Button";
 import { priorityList } from "../util/Priority";
-import TodoEditor from "./TodoEditor";
 
 // console.log(importanceList);
 

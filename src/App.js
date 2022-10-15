@@ -71,7 +71,7 @@ const dummyData = [
 function App() {
   const [data, dispatch] = useReducer(reducer, dummyData);
 
-  const dataId = useRef(0);
+  const dataId = useRef(6);
   // CREATE
   const onCreate = (date, content, priority, todoState) => {
     dispatch({
@@ -84,6 +84,7 @@ function App() {
         todoState: false,
       },
     });
+    dataId.current += 1;
   };
   // REMOVE
   const onRemove = (targetId) => {
