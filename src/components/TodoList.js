@@ -1,34 +1,37 @@
 import { useState } from "react";
-import Button from "./Button";
+import { priorityFilterOptionList } from "../util/PriorityFilterOptionList";
+import { sortOptionList } from "../util/SortOptionList";
+import ControlMenu from "./ControlMenu";
+// import Button from "./Button";
 import TodoItem from "./TodoItem";
 
-const sortOptionList = [
-  { value: "latest", name: "최신순" },
-  { value: "oldest", name: "오래된순" },
-];
+// const sortOptionList = [
+//   { value: "latest", name: "최신순" },
+//   { value: "oldest", name: "오래된순" },
+// ];
 
-const priorityFilterOptionList = [
-  { value: "all", name: "전부" },
-  { value: "high", name: "높음" },
-  { value: "medium", name: "보통" },
-  { value: "low", name: "낮음" },
-];
+// const priorityFilterOptionList = [
+//   { value: "all", name: "전부" },
+//   { value: "high", name: "높음" },
+//   { value: "medium", name: "보통" },
+//   { value: "low", name: "낮음" },
+// ];
 
-const ControlMenu = ({ value, onChange, optionList }) => {
-  return (
-    <select
-      className="ControlMenu"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-    >
-      {optionList.map((it, index) => (
-        <option key={index} value={it.value}>
-          {it.name}
-        </option>
-      ))}
-    </select>
-  );
-};
+// const ControlMenu = ({ value, onChange, optionList }) => {
+//   return (
+//     <select
+//       className="ControlMenu"
+//       value={value}
+//       onChange={(e) => onChange(e.target.value)}
+//     >
+//       {optionList.map((it, index) => (
+//         <option key={index} value={it.value}>
+//           {it.name}
+//         </option>
+//       ))}
+//     </select>
+//   );
+// };
 
 const TodoList = ({ todoList, setSelectData }) => {
   // 정렬 기준을 저장할 state
