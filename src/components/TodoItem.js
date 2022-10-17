@@ -8,20 +8,24 @@ import { TodoDispatchContext } from "../App";
 
 const ImportanceProp = ({ priority }) => {
   const priorityType = [1, 2, 3].includes(priority) ? priority : "none";
-  // let text = "";
-  // if (importanceType === 1) {
-  //   text = "높음";
-  // } else if (importanceType === 2) {
-  //   text = "중간";
-  // } else if (importanceType === 3) {
-  //   text = "낮음";
-  // }
-  const compare = priorityList
-    .map((it) => {
-      if (parseInt(it.priority_id) === parseInt(priorityType))
-        return it.priority_text;
-    })
-    .filter((ele) => ele);
+
+  // const compare = priorityList
+  //   .map((it) => {
+  //     if (parseInt(it.priority_id) === parseInt(priorityType))
+  //       return it.priority_text;
+  //     else
+  //       return (
+  //         <div key={it.priority_id} className="priority">
+  //           알 수 없음
+  //         </div>
+  //       );
+  //   })
+  //   .filter((ele) => ele);
+  // // console.log(compare);
+  const compare = priorityList.find(
+    (it) => it.priority_id === priorityType
+  ).priority_text;
+
   return (
     <div className={["priority", `priority_${priorityType}`].join(" ")}>
       {compare}
@@ -48,6 +52,7 @@ const TodoItem = ({
   };
 
   const { onDone, onRemove } = useContext(TodoDispatchContext);
+
   const handleClickComplete = () => {
     if (window.confirm(`${content}를 완료하셨습니까?`)) {
       onDone(id, date);
@@ -58,13 +63,6 @@ const TodoItem = ({
       onRemove(id);
     }
   };
-  // const onRemoveTodo = () => {
-  //   if (window.confirm("정말 삭제하시겠습니까?")) {
-  //     onRemove(originData.id);
-  //     setSelectState(0);
-  //     onReset();
-  //   }
-  // };
 
   return (
     <div className="TodoItem">
