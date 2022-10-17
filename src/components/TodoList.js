@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { priorityFilterOptionList } from "../util/PriorityFilterOptionList";
+import { prioritySortOptionList } from "../util/PrioritySortOptionList";
 import { sortOptionList } from "../util/SortOptionList";
+import { todoStateOptionList } from "../util/TodoStateOptionList";
 import ControlMenu from "./ControlMenu";
 // import Button from "./Button";
 import TodoItem from "./TodoItem";
@@ -35,34 +36,56 @@ import TodoItem from "./TodoItem";
 
 const TodoList = ({ todoList, setSelectData }) => {
   // 정렬 기준을 저장할 state
-  const [sortType, setSortType] = useState("latest");
-  const [priorityfilter, setPriorityFilter] = useState("all");
+  const [sortType, setSortType] = useState("oldest");
+  const [todofilter, setTodoFilter] = useState("todo");
+  const [prioritySort, setPrioritySort] = useState("high");
 
   // 최신순인지 오래된 순인지 분기하여 정렬된 리스트 반환하는 함수
   const getProcessedTodoList = () => {
     const filterCallback = (item) => {
-      if (priorityfilter === "high") {
-        return parseInt(item.priority) === 1;
-      } else if (priorityfilter === "medium") {
-        return parseInt(item.priority) === 2;
+      if (todofilter === "todo") {
+        return !item.todoState;
       } else {
-        return parseInt(item.priority) === 3;
+        return item.todoState;
       }
     };
     const compare = (a, b) => {
-      if (sortType === "latest") {
-        return parseInt(b.date) - parseInt(a.date);
+      const fi = new Date(a.date).getDate();
+      const se = new Date(b.date).getDate();
+      if (sortType === "oldest") {
+        // console.log(fi);
+        if (fi === se && prioritySort === "low") {
+          return parseInt(b.priority) - parseInt(a.priority);
+        } else if (fi === se && prioritySort === "high") {
+          return parseInt(a.priority) - parseInt(b.priority);
+        }
+        return parseInt(fi) - parseInt(se);
       } else {
-        return parseInt(a.date) - parseInt(b.date);
+        if (fi === se && prioritySort === "low") {
+          return parseInt(b.priority) - parseInt(a.priority);
+        } else if (fi === se && prioritySort === "high") {
+          return parseInt(a.priority) - parseInt(b.priority);
+        }
+        return parseInt(se) - parseInt(fi);
       }
     };
+    // const compare2 = (a, b) => {
+    //   new Date(parseInt(a.date))
+    //   if (prioritySort === "low") {
+    //     return parseInt(b.priority) - parseInt(a.priority);
+    //   } else {
+    //     return parseInt(a.priority) - parseInt(b.priority);
+    //   }
+    // };
+
     // 깊은 복사로 원본 배열을 손대지 않음
     const copyList = JSON.parse(JSON.stringify(todoList));
     const filteredList =
-      priorityfilter === "all"
+      todofilter === "all"
         ? copyList
         : copyList.filter((it) => filterCallback(it));
     const sortedList = filteredList.sort(compare);
+
     return sortedList;
   };
 
@@ -71,14 +94,19 @@ const TodoList = ({ todoList, setSelectData }) => {
       <div className="menu_wrapper">
         <div className="left_col">
           <ControlMenu
-            value={priorityfilter}
-            onChange={setPriorityFilter}
-            optionList={priorityFilterOptionList}
+            value={todofilter}
+            onChange={setTodoFilter}
+            optionList={todoStateOptionList}
           />
           <ControlMenu
             value={sortType}
             onChange={setSortType}
             optionList={sortOptionList}
+          />
+          <ControlMenu
+            value={prioritySort}
+            onChange={setPrioritySort}
+            optionList={prioritySortOptionList}
           />
         </div>
         <div className="right_col"></div>

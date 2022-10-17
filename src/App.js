@@ -1,4 +1,6 @@
 import React, { useEffect, useReducer, useRef } from "react";
+
+import { Reset } from "styled-reset";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -22,6 +24,12 @@ const reducer = (state, action) => {
     case "EDIT": {
       newState = state.map((it) =>
         it.id === action.data.id ? { ...action.data } : it
+      );
+      break;
+    }
+    case "DONE": {
+      newState = state.map((it) =>
+        it.id === action.data.id ? { ...it, todoState: true } : it
       );
       break;
     }
@@ -52,7 +60,7 @@ function App() {
 
   const dataId = useRef(6);
   // CREATE
-  const onCreate = (date, content, priority, todoState) => {
+  const onCreate = (date, content, priority) => {
     dispatch({
       type: "CREATE",
       data: {
@@ -73,7 +81,7 @@ function App() {
     });
   };
   // EDIT
-  const onEdit = (targetId, date, content, priority) => {
+  const onEdit = (targetId, date, content, priority, todoState) => {
     dispatch({
       type: "EDIT",
       data: {
@@ -81,14 +89,28 @@ function App() {
         date: new Date(date).getTime(),
         content,
         priority,
+        todoState,
+      },
+    });
+  };
+  // DONE
+  const onDone = (targetId, date) => {
+    dispatch({
+      type: "DONE",
+      data: {
+        id: targetId,
+        date: new Date(date).getTime(),
       },
     });
   };
 
   return (
     <TodoStateContext.Provider value={data}>
-      <TodoDispatchContext.Provider value={{ onCreate, onEdit, onRemove }}>
+      <TodoDispatchContext.Provider
+        value={{ onCreate, onEdit, onRemove, onDone }}
+      >
         <BrowserRouter>
+          <Reset />
           <div className="App">
             <Routes>
               <Route path="/" element={<Home />} />

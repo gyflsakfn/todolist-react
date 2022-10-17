@@ -19,17 +19,18 @@ const TodoEditor = ({ selectData }) => {
   const [content, setContent] = useState("");
   const [priority, setPriority] = useState(2);
   const [date, setDate] = useState(getStringDate(new Date()));
+  const [todoState, setTodoState] = useState();
   // const [state, setState] = useState(false);
 
   const [selectState, setSelectState] = useState();
 
   const todoList = useContext(TodoStateContext);
-  const { onCreate, onEdit, onRemove } = useContext(TodoDispatchContext);
+  const { onCreate, onEdit } = useContext(TodoDispatchContext);
 
+  // 취소 후 selectData의 값이 변하지 않을 때 문제가 있음..
+  // context로 관리하여 props drilling 줄이기
   useEffect(() => {
-    if (selectData) {
-      setSelectState(parseInt(selectData));
-    }
+    setSelectState(parseInt(selectData));
   }, [selectData]);
 
   useEffect(() => {
@@ -43,6 +44,7 @@ const TodoEditor = ({ selectData }) => {
         setDate(getStringDate(new Date(parseInt(originData.date))));
         setContent(originData.content);
         setPriority(originData.priority);
+        setTodoState(originData.todoState);
       } else {
         onReset();
       }
@@ -72,23 +74,23 @@ const TodoEditor = ({ selectData }) => {
   };
 
   const onEditTodo = () => {
-    onEdit(originData.id, date, content, priority);
+    onEdit(originData.id, date, content, priority, todoState);
     setSelectState(0);
     onReset();
   };
 
   const onEditCancel = () => {
-    setSelectState(0);
+    setSelectState(undefined);
     onReset();
   };
 
-  const onRemoveTodo = () => {
-    if (window.confirm("정말 삭제하시겠습니까?")) {
-      onRemove(originData.id);
-      setSelectState(0);
-      onReset();
-    }
-  };
+  // const onRemoveTodo = () => {
+  //   if (window.confirm("정말 삭제하시겠습니까?")) {
+  //     onRemove(originData.id);
+  //     setSelectState(0);
+  //     onReset();
+  //   }
+  // };
   return (
     <div className="TodoEditor">
       <div className="test">
@@ -122,11 +124,11 @@ const TodoEditor = ({ selectData }) => {
         {selectState ? (
           <div>
             <Button text={"취소"} onClick={onEditCancel} />
-            <Button text={"수정"} onClick={onEditTodo} />
-            <Button text={"삭제"} type={"negative"} onClick={onRemoveTodo} />
+            <Button text={"수정"} onClick={onEditTodo} type={"edit"} />
+            {/* <Button text={"삭제"} type={"negative"} onClick={onRemoveTodo} /> */}
           </div>
         ) : (
-          <Button text={"저장"} onClick={onCreateTodo} type={"positive"} />
+          <Button text={"저장"} onClick={onCreateTodo} type={"save"} />
         )}
         {/* <Button text={"저장"} onClick={handleSubmit} type={"positive"} />
         <Button text={"취소"} /> */}

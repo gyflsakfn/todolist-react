@@ -1,5 +1,8 @@
+import { useContext } from "react";
+
 import Button from "./Button";
 import { priorityList } from "../util/Priority";
+import { TodoDispatchContext } from "../App";
 
 // console.log(importanceList);
 
@@ -26,20 +29,62 @@ const ImportanceProp = ({ priority }) => {
   );
 };
 
-const TodoItem = ({ id, content, date, priority, setSelectData }) => {
-  const strDate = new Date(parseInt(date)).toLocaleDateString();
+const TodoItem = ({
+  id,
+  content,
+  date,
+  priority,
+  setSelectData,
+  todoState,
+}) => {
+  const getDay = () => {
+    const week = ["일", "월", "화", "수", "목", "금", "토"];
+    // const strDate = new Date(parseInt(date)).toLocaleDateString();
+    const itemDate = new Date(parseInt(date));
+    const strDate = `${itemDate.getFullYear()}. ${
+      itemDate.getMonth() + 1
+    }. ${itemDate.getDate()}. ${week[itemDate.getDay()]}요일 `;
+    return strDate;
+  };
+
+  const { onDone, onRemove } = useContext(TodoDispatchContext);
+  const handleClickComplete = () => {
+    onDone(id, date);
+  };
+  const handleClickRemove = () => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      onRemove(id);
+      //     setSelectState(0);
+      //     onReset();
+    }
+  };
+  // const onRemoveTodo = () => {
+  //   if (window.confirm("정말 삭제하시겠습니까?")) {
+  //     onRemove(originData.id);
+  //     setSelectState(0);
+  //     onReset();
+  //   }
+  // };
 
   return (
     <div className="TodoItem">
-      <div className="info_wrapper" onClick={() => setSelectData(id)}>
-        <div className="info__date">{strDate}</div>
+      <div className="info_wrapper" onClick={(e) => setSelectData(id)}>
+        <div className="info__date">{getDay()}</div>
         <div className="info__content">
           <ImportanceProp priority={priority} />
           {content}
         </div>
       </div>
       <div className="complete_wrapper">
-        <Button type={"positive"} text={"완료"} />
+        {todoState ? (
+          <Button type={"remove"} text={"삭제"} onClick={handleClickRemove} />
+        ) : (
+          <Button
+            type={"complete"}
+            text={"완료"}
+            onClick={handleClickComplete}
+          />
+        )}
       </div>
     </div>
   );
