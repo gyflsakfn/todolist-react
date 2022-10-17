@@ -49,13 +49,13 @@ const TodoItem = ({
 
   const { onDone, onRemove } = useContext(TodoDispatchContext);
   const handleClickComplete = () => {
-    onDone(id, date);
+    if (window.confirm(`${content}를 완료하셨습니까?`)) {
+      onDone(id, date);
+    } else return;
   };
   const handleClickRemove = () => {
     if (window.confirm("정말 삭제하시겠습니까?")) {
       onRemove(id);
-      //     setSelectState(0);
-      //     onReset();
     }
   };
   // const onRemoveTodo = () => {
