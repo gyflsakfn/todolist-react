@@ -1,4 +1,6 @@
-import React, { useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
+
+import { Reset } from "styled-reset";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -15,65 +17,50 @@ const reducer = (state, action) => {
       newState = [action.data, ...state];
       break;
     }
+    case "REMOVE": {
+      newState = state.filter((it) => it.id !== action.targetId);
+      break;
+    }
     case "EDIT": {
       newState = state.map((it) =>
         it.id === action.data.id ? { ...action.data } : it
       );
       break;
     }
+    case "DONE": {
+      newState = state.map((it) =>
+        it.id === action.data.id ? { ...it, todoState: true } : it
+      );
+      break;
+    }
     default:
       return state;
   }
+  localStorage.setItem("todo", JSON.stringify(newState));
   return newState;
 };
 
 export const TodoStateContext = React.createContext();
 export const TodoDispatchContext = React.createContext();
 
-const dummyData = [
-  {
-    id: 1,
-    priority: 1,
-    todoState: false,
-    content: "공부하기 1",
-    date: 1665132215681,
-  },
-  {
-    id: 2,
-    priority: 2,
-    todoState: false,
-    content: "공부하기 2",
-    date: 1665132215682,
-  },
-  {
-    id: 3,
-    priority: 2,
-    todoState: false,
-    content: "공부하기 3",
-    date: 1665132215683,
-  },
-  {
-    id: 4,
-    priority: 3,
-    todoState: false,
-    content: "공부하기 4",
-    date: 1665132215684,
-  },
-  {
-    id: 5,
-    priority: 3,
-    todoState: false,
-    content: "공부하기 5",
-    date: 1665132215685,
-  },
-];
-
 function App() {
-  const [data, dispatch] = useReducer(reducer, dummyData);
+  const [data, dispatch] = useReducer(reducer, []);
+
+  useEffect(() => {
+    const localData = localStorage.getItem("todo");
+    if (localData) {
+      const todoList = JSON.parse(localData).sort(
+        (a, b) => parseInt(b.id) - parseInt(a.id)
+      );
+      dataId.current = parseInt(todoList[0].id + 1);
+
+      dispatch({ type: "INIT", data: todoList });
+    }
+  }, []);
 
   const dataId = useRef(6);
   // CREATE
-  const onCreate = (date, content, priority, todoState) => {
+  const onCreate = (date, content, priority) => {
     dispatch({
       type: "CREATE",
       data: {
@@ -88,10 +75,13 @@ function App() {
   };
   // REMOVE
   const onRemove = (targetId) => {
-    dispatch({ type: "REMOVE" }, targetId);
+    dispatch({
+      type: "REMOVE",
+      targetId,
+    });
   };
   // EDIT
-  const onEdit = (targetId, date, content, priority) => {
+  const onEdit = (targetId, date, content, priority, todoState) => {
     dispatch({
       type: "EDIT",
       data: {
@@ -99,14 +89,28 @@ function App() {
         date: new Date(date).getTime(),
         content,
         priority,
+        todoState,
+      },
+    });
+  };
+  // DONE
+  const onDone = (targetId, date) => {
+    dispatch({
+      type: "DONE",
+      data: {
+        id: targetId,
+        date: new Date(date).getTime(),
       },
     });
   };
 
   return (
     <TodoStateContext.Provider value={data}>
-      <TodoDispatchContext.Provider value={{ onCreate, onEdit, onRemove }}>
+      <TodoDispatchContext.Provider
+        value={{ onCreate, onEdit, onRemove, onDone }}
+      >
         <BrowserRouter>
+          <Reset />
           <div className="App">
             <Routes>
               <Route path="/" element={<Home />} />

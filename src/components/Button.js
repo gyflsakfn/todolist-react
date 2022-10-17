@@ -1,5 +1,7 @@
 const Button = ({ text, type, onClick }) => {
-  const btnType = ["positive", "negative", "default"].includes(type)
+  const btnType = ["save", "remove", "complete", "edit", "default"].includes(
+    type
+  )
     ? type
     : "defult";
 
