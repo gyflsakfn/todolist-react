@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { TodoStateContext } from "../App";
 
 import Button from "../components/Button";
@@ -18,6 +19,8 @@ const Home = () => {
   const [curDate, setCurDate] = useState(new Date());
   // 현재 날짜 추출
   const dateText = `${curDate.getFullYear()}년 ${curDate.getMonth() + 1}월`;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (todoList.length >= 1) {
@@ -56,9 +59,18 @@ const Home = () => {
     );
   };
 
+  const onClick = () => {
+    navigate("/Calendar");
+    const re = navigate("/Calendar");
+    console.log(re);
+  };
+
   return (
     <div>
-      <Header headText={"TodoList"} />
+      <Header
+        headText={"TodoList"}
+        rightChild={<Button text={"캘린더"} onClick={onClick} />}
+      />
       <TodoEditor />
       <DateInfo
         dateText={dateText}

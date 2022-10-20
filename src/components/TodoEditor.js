@@ -30,7 +30,7 @@ const TodoEditor = () => {
   const { onCreate, onEdit } = useContext(TodoDispatchContext);
 
   const { selectData, setSelectData } = useContext(TodoSelectContext);
-  console.log(selectData.select_id);
+  // console.log(selectData.select_id);
 
   // 취소 후 selectData의 값이 변하지 않을 때 문제가 있음..
   // context로 관리하여 props drilling 줄이기
@@ -44,7 +44,7 @@ const TodoEditor = () => {
         (it) => parseInt(it.id) === parseInt(selectData.select_id)
       );
       setOriginData(targetTodo);
-      console.log(targetTodo);
+      // console.log(targetTodo);
 
       if (originData) {
         setDate(getStringDate(new Date(parseInt(originData.date))));

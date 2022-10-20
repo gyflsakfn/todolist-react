@@ -1,10 +1,14 @@
 import { useState } from "react";
+// import { useLocation } from "react-router-dom";
+
 import { prioritySortOptionList } from "../util/PrioritySortOptionList";
 import { sortOptionList } from "../util/SortOptionList";
 import { todoStateOptionList } from "../util/TodoStateOptionList";
+
 import ControlMenu from "./ControlMenu";
-// import Button from "./Button";
 import TodoItem from "./TodoItem";
+// import Button from "./Button";
+// import TodoCalendar from "./TodoCalendar";
 
 // const sortOptionList = [
 //   { value: "latest", name: "최신순" },
@@ -39,6 +43,9 @@ const TodoList = ({ todoList }) => {
   const [sortType, setSortType] = useState("oldest");
   const [todofilter, setTodoFilter] = useState("todo");
   const [prioritySort, setPrioritySort] = useState("high");
+  // const sampleLocation = useLocation();
+  // let pathName = sampleLocation.pathname;
+  // console.log(pathName);
 
   // 최신순인지 오래된 순인지 분기하여 정렬된 리스트 반환하는 함수
   const getProcessedTodoList = () => {
@@ -110,11 +117,15 @@ const TodoList = ({ todoList }) => {
           />
         </div>
         <div className="right_col"></div>
-      </div>
-
+      </div>{" "}
       {getProcessedTodoList().map((it) => (
         <TodoItem key={it.id} {...it} />
       ))}
+      {/* {pathName === "/"
+        ? getProcessedTodoList().map((it) => <TodoItem key={it.id} {...it} />)
+        : getProcessedTodoList().map((it) => (
+            <TodoCalendar key={it.id} {...it} />
+          ))} */}
     </div>
   );
 };
