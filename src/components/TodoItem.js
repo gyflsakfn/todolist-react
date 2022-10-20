@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import Button from "./Button";
 import { priorityList } from "../util/Priority";
-import { TodoDispatchContext } from "../App";
+import { TodoDispatchContext, TodoSelectContext } from "../App";
 
 // console.log(importanceList);
 
@@ -33,14 +33,9 @@ const ImportanceProp = ({ priority }) => {
   );
 };
 
-const TodoItem = ({
-  id,
-  content,
-  date,
-  priority,
-  setSelectData,
-  todoState,
-}) => {
+const TodoItem = ({ id, content, date, priority, todoState }) => {
+  const { setSelectData } = useContext(TodoSelectContext);
+
   const getDay = () => {
     const week = ["일", "월", "화", "수", "목", "금", "토"];
     // const strDate = new Date(parseInt(date)).toLocaleDateString();
@@ -63,10 +58,14 @@ const TodoItem = ({
       onRemove(id);
     }
   };
+  const gogo = () => {
+    setSelectData({ select_id: id });
+  };
+  // console.log(selectData.select_id);
 
   return (
     <div className="TodoItem">
-      <div className="info_wrapper" onClick={(e) => setSelectData(id)}>
+      <div className="info_wrapper" onClick={gogo}>
         <div className="info__date">{getDay()}</div>
         <div className="info__content">
           <ImportanceProp priority={priority} />

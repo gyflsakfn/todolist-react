@@ -3,7 +3,11 @@ import { priorityList } from "../util/Priority";
 import PriorityItem from "./PriorityItem";
 
 import Button from "./Button";
-import { TodoDispatchContext, TodoStateContext } from "../App";
+import {
+  TodoDispatchContext,
+  TodoSelectContext,
+  TodoStateContext,
+} from "../App";
 
 // toISOString사용 시 UTC 타임존 사용으로 인해 가공 후 반환
 const getStringDate = (date) => {
@@ -13,7 +17,7 @@ const getStringDate = (date) => {
   return dateOffset.toISOString().slice(0, 10);
 };
 
-const TodoEditor = ({ selectData }) => {
+const TodoEditor = () => {
   const [originData, setOriginData] = useState();
   const contentRef = useRef();
   const [content, setContent] = useState("");
@@ -22,21 +26,22 @@ const TodoEditor = ({ selectData }) => {
   const [todoState, setTodoState] = useState();
   // const [state, setState] = useState(false);
 
-  const [selectState, setSelectState] = useState();
-
   const todoList = useContext(TodoStateContext);
   const { onCreate, onEdit } = useContext(TodoDispatchContext);
+
+  const { selectData, setSelectData } = useContext(TodoSelectContext);
+  console.log(selectData.select_id);
 
   // 취소 후 selectData의 값이 변하지 않을 때 문제가 있음..
   // context로 관리하여 props drilling 줄이기
   useEffect(() => {
-    setSelectState(parseInt(selectData));
+    // setSelectState(parseInt(selectData));
   }, [selectData]);
 
   useEffect(() => {
     if (todoList.length >= 1) {
       const targetTodo = todoList.find(
-        (it) => parseInt(it.id) === parseInt(selectState)
+        (it) => parseInt(it.id) === selectData.select_id
       );
       setOriginData(targetTodo);
 
@@ -49,7 +54,7 @@ const TodoEditor = ({ selectData }) => {
         onReset();
       }
     }
-  }, [selectState, originData, todoList]);
+  }, [originData, todoList, selectData.select_id]);
 
   const handleClickPriority = (priority) => {
     setPriority(priority);
@@ -75,12 +80,12 @@ const TodoEditor = ({ selectData }) => {
 
   const onEditTodo = () => {
     onEdit(originData.id, date, content, priority, todoState);
-    setSelectState(0);
+    // setSelectState(0);
     onReset();
   };
 
   const onEditCancel = () => {
-    setSelectState(undefined);
+    // setSelectState(undefined);
     onReset();
   };
 
@@ -121,7 +126,7 @@ const TodoEditor = ({ selectData }) => {
         </div>
       </div>
       <div className="Control_box">
-        {selectState ? (
+        {originData ? (
           <div>
             <Button text={"취소"} onClick={onEditCancel} />
             <Button text={"수정"} onClick={onEditTodo} type={"edit"} />

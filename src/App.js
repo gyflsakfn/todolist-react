@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 
 import { Reset } from "styled-reset";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -41,10 +41,12 @@ const reducer = (state, action) => {
 };
 
 export const TodoStateContext = React.createContext();
+export const TodoSelectContext = React.createContext();
 export const TodoDispatchContext = React.createContext();
 
 function App() {
   const [data, dispatch] = useReducer(reducer, []);
+  const [selectData, setSelectData] = useState("");
 
   useEffect(() => {
     const localData = localStorage.getItem("todo");
@@ -109,16 +111,18 @@ function App() {
       <TodoDispatchContext.Provider
         value={{ onCreate, onEdit, onRemove, onDone }}
       >
-        <BrowserRouter>
-          <Reset />
-          <div className="App">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/Calendar" element={<Calendar />} />
-              <Route />
-            </Routes>
-          </div>
-        </BrowserRouter>
+        <TodoSelectContext.Provider value={{ selectData, setSelectData }}>
+          <BrowserRouter>
+            <Reset />
+            <div className="App">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/Calendar" element={<Calendar />} />
+                <Route />
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </TodoSelectContext.Provider>
       </TodoDispatchContext.Provider>
     </TodoStateContext.Provider>
   );
