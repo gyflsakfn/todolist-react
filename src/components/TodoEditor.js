@@ -34,16 +34,17 @@ const TodoEditor = () => {
 
   // 취소 후 selectData의 값이 변하지 않을 때 문제가 있음..
   // context로 관리하여 props drilling 줄이기
-  useEffect(() => {
-    // setSelectState(parseInt(selectData));
-  }, [selectData]);
+  // useEffect(() => {
+  //   setSelectData(parseInt(selectData));
+  // }, [selectData, setSelectData]);
 
   useEffect(() => {
     if (todoList.length >= 1) {
       const targetTodo = todoList.find(
-        (it) => parseInt(it.id) === selectData.select_id
+        (it) => parseInt(it.id) === parseInt(selectData.select_id)
       );
       setOriginData(targetTodo);
+      console.log(targetTodo);
 
       if (originData) {
         setDate(getStringDate(new Date(parseInt(originData.date))));
@@ -66,6 +67,7 @@ const TodoEditor = () => {
     setDate(getStringDate(new Date()));
     setPriority(2);
     setContent("");
+    // setSelectData(0);
   };
 
   const onCreateTodo = () => {
@@ -80,12 +82,12 @@ const TodoEditor = () => {
 
   const onEditTodo = () => {
     onEdit(originData.id, date, content, priority, todoState);
-    // setSelectState(0);
     onReset();
+    setSelectData(0);
   };
 
   const onEditCancel = () => {
-    // setSelectState(undefined);
+    setSelectData(0);
     onReset();
   };
 
@@ -126,7 +128,7 @@ const TodoEditor = () => {
         </div>
       </div>
       <div className="Control_box">
-        {originData ? (
+        {selectData.select_id ? (
           <div>
             <Button text={"취소"} onClick={onEditCancel} />
             <Button text={"수정"} onClick={onEditTodo} type={"edit"} />

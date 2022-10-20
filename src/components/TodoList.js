@@ -34,7 +34,7 @@ import TodoItem from "./TodoItem";
 //   );
 // };
 
-const TodoList = ({ todoList, setSelectData }) => {
+const TodoList = ({ todoList }) => {
   // 정렬 기준을 저장할 state
   const [sortType, setSortType] = useState("oldest");
   const [todofilter, setTodoFilter] = useState("todo");
@@ -113,7 +113,7 @@ const TodoList = ({ todoList, setSelectData }) => {
       </div>
 
       {getProcessedTodoList().map((it) => (
-        <TodoItem setSelectData={setSelectData} key={it.id} {...it} />
+        <TodoItem key={it.id} {...it} />
       ))}
     </div>
   );
