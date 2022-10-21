@@ -327,27 +327,15 @@ body {
 }
 
 .container {
-  width: 500px;
-  height: 400px;
-  margin: auto;
-  padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px;
   border: 1px solid rgba(128, 128, 128, 0.267);
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
 }
 
 .container .title {
   display: flex;
-}
-
-.container .title > button {
-  border: none;
-  margin-left: 5px;
-  height: 20px;
-  align-self: center;
-  background: none;
 }
 
 .container .title .pagination {
@@ -365,7 +353,7 @@ body {
 }
 
 .container .week .weekday {
-  width: calc(500px / 7);
+  width: calc(100% / 7);
   text-align: center;
 }
 
@@ -382,11 +370,12 @@ body {
 }
 
 .container .date .weekday {
-  width: calc(500px / 7);
+  width: calc(100% / 7);
+  box-sizing: border-box;
   float: left;
-  text-align: center;
-  height: 50px;
-  line-height: 50px;
+  text-align: left;
+  height: 100px;
+  border: 1px solid black;
 }
 
 .container .date .sunday {

@@ -76,16 +76,7 @@ const TodoList = ({ todoList }) => {
         return parseInt(se) - parseInt(fi);
       }
     };
-    // const compare2 = (a, b) => {
-    //   new Date(parseInt(a.date))
-    //   if (prioritySort === "low") {
-    //     return parseInt(b.priority) - parseInt(a.priority);
-    //   } else {
-    //     return parseInt(a.priority) - parseInt(b.priority);
-    //   }
-    // };
 
-    // 깊은 복사로 원본 배열을 손대지 않음
     const copyList = JSON.parse(JSON.stringify(todoList));
     const filteredList =
       todofilter === "all"
