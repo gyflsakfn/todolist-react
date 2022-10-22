@@ -61,8 +61,8 @@ const Home = () => {
 
   const onClick = () => {
     navigate("/Calendar");
-    const re = navigate("/Calendar");
-    console.log(re);
+    // const re = navigate("/Calendar");
+    // console.log(re);
   };
 
   return (

@@ -9,9 +9,22 @@ import TestCalItem from "./TestCalItem";
 
 const Test = ({ curDate, todoList }) => {
   // 정렬 기준을 저장할 state
-  const [sortType, setSortType] = useState("oldest");
   const [todofilter, setTodoFilter] = useState("todo");
   const [prioritySort, setPrioritySort] = useState("high");
+  const a = todoList.map((it) => parseInt(it.id));
+
+  // console.log(a);
+  a.sort((a, b) => a - b);
+  // a.map((z) => console.log(z));
+
+  const havaNumberInArryy = (num, array) => {
+    for (let idx in array) {
+      if (array[idx] === num) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const getProcessedTodoList = () => {
     const filterCallback = (item) => {
@@ -25,21 +38,11 @@ const Test = ({ curDate, todoList }) => {
     const compare = (a, b) => {
       const fi = new Date(a.date).getDate();
       const se = new Date(b.date).getDate();
-      if (sortType === "oldest") {
-        // console.log(fi);
-        if (fi === se && prioritySort === "low") {
-          return parseInt(b.priority) - parseInt(a.priority);
-        } else if (fi === se && prioritySort === "high") {
-          return parseInt(a.priority) - parseInt(b.priority);
-        }
-        return parseInt(fi) - parseInt(se);
+      // console.log(fi);
+      if (fi === se && prioritySort === "low") {
+        return parseInt(b.priority) - parseInt(a.priority);
       } else {
-        if (fi === se && prioritySort === "low") {
-          return parseInt(b.priority) - parseInt(a.priority);
-        } else if (fi === se && prioritySort === "high") {
-          return parseInt(a.priority) - parseInt(b.priority);
-        }
-        return parseInt(se) - parseInt(fi);
+        return parseInt(a.priority) - parseInt(b.priority);
       }
     };
 
@@ -128,11 +131,14 @@ const Test = ({ curDate, todoList }) => {
                 }
               )}
             >
-              <div className="dayday">
-                {i + 1}{" "}
-                {getProcessedTodoList().map((it) => (
-                  <TestCalItem day_id={i} key={it.id} {...it} />
-                ))}
+              <div className="day_box">
+                <div className="day">{i + 1}</div>
+                {/* {havaNumberInArryy(i, a)
+                  ? getProcessedTodoList().map(
+                      (it) => console.log("gkgk")
+                      // <TestCalItem day_id={a} key={it.id} {...it} />
+                    )
+                  : null} */}
               </div>
             </div>
           );
@@ -141,38 +147,29 @@ const Test = ({ curDate, todoList }) => {
         dayArr.push(<div className="weekday"></div>);
       }
     }
+    // console.log(dayArr);
 
     return dayArr;
   }, [curDateYear, curDateMonth, dateTotalCount, curDate, week]);
 
-  const dayOfTodo = () => {
-    returnDay().map((it) =>
-      it.key === todoList.map((it) => it.id)
-        ? console.log("있네")
-        : console.log("없네")
-    );
-  };
-  dayOfTodo();
-  console.log(returnDay());
+  returnDay().map(() => console.log("하아"));
+
   return (
     <>
-      {" "}
-      <div className="left_col">
-        <ControlMenu
-          value={todofilter}
-          onChange={setTodoFilter}
-          optionList={todoStateOptionList}
-        />
-        <ControlMenu
-          value={sortType}
-          onChange={setSortType}
-          optionList={sortOptionList}
-        />
-        <ControlMenu
-          value={prioritySort}
-          onChange={setPrioritySort}
-          optionList={prioritySortOptionList}
-        />
+      <div className="menu_wrapper">
+        <div className="left_col">
+          <ControlMenu
+            value={todofilter}
+            onChange={setTodoFilter}
+            optionList={todoStateOptionList}
+          />
+          <ControlMenu
+            value={prioritySort}
+            onChange={setPrioritySort}
+            optionList={prioritySortOptionList}
+          />
+        </div>
+        <div className="right_col"></div>
       </div>
       <div className="right_col"></div>
       <div className="container">

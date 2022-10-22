@@ -68,7 +68,7 @@ body {
 .header_box {
   display: flex;
   flex-direction: row;
-  /* justify-content: center; */
+  justify-content: space-between;
 }
 .head_title {
   height: 72px;
@@ -114,7 +114,7 @@ body {
 }
 
 /* TodoList */
-.TodoList .menu_wrapper {
+.menu_wrapper {
   margin-top: 12px;
   margin-bottom: 12px;
 
@@ -122,10 +122,10 @@ body {
   justify-content: space-between;
   align-items: flex-end;
 }
-.TodoList .right_col .btn {
+.right_col .btn {
   margin-right: 10px;
 }
-.TodoList .ControlMenu {
+.ControlMenu {
   margin-right: 10px;
   border: none;
   border-radius: 5px;
@@ -187,7 +187,7 @@ body {
 }
 
 .TodoItem .priority {
-  background-color: #e2e2e2;
+  /* background-color: #e2e2e2; */
   font-size: 18px;
   padding: 4px 12px;
   border-radius: 6px;
@@ -195,13 +195,13 @@ body {
   padding-top: 0.4em;
   margin-right: 6px;
 }
-.TodoItem .priority_1 {
+.priority_1 {
   background-color: #ff9999;
 }
-.TodoItem .priority_2 {
+.priority_2 {
   background-color: #ffe5cc;
 }
-.TodoItem .priority_3 {
+.priority_3 {
   background-color: #e5ffcc;
 }
 
@@ -327,6 +327,8 @@ body {
 }
 
 .container {
+  font-family: "KyoboHand";
+
   display: flex;
   flex-direction: column;
   padding: 10px 10px;
@@ -386,9 +388,21 @@ body {
   color: blue;
 }
 
-.container .date .today {
-  background-color: rgb(88, 111, 187);
-  color: white;
-  font-weight: 700;
-  border-radius: 50%;
+.container .date .today .day {
+  background-color: #268a25;
+}
+.day_box {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.dayItems {
+  font-size: 14px;
+  padding: 3px 1px;
+  margin-top: 1px;
+  margin-bottom: 2px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  color: black;
+  /* background-color: #47b5ff; */
 }

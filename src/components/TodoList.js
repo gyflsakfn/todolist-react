@@ -108,7 +108,7 @@ const TodoList = ({ todoList }) => {
           />
         </div>
         <div className="right_col"></div>
-      </div>{" "}
+      </div>
       {getProcessedTodoList().map((it) => (
         <TodoItem key={it.id} {...it} />
       ))}
